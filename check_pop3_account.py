@@ -112,7 +112,7 @@ def get_args():
     
 def check_mailbox(host, user, pswd, protocol):
     """ Checks the mailbox and returns the count of messages"""
-    mail_count = 0
+    mail_count = None
     try:
         if (protocol == PROTOCOL_POP3):
             mailbox = poplib.POP3(host)
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     args = get_args()
     mail_count = check_mailbox(args.host, args.user, args.pswd, args.protocol)
     status_info = "%d emails for %s" %(mail_count, args.user)
-    if (mail_count > 0):
+    if mail_count is None:
         status_code = "CRITICAL"
         status_info = "Failed to login to server: %s with user: %s over: %s" %(args.host, args.user, args.protocol)
     elif ((args.critical > 0) and (mail_count >= args.critical)):
