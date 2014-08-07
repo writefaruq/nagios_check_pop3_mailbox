@@ -139,7 +139,7 @@ if __name__ == '__main__':
         status_info = "Failed to login to server: %s with user: %s over: %s" %(args.host, args.user, args.protocol)
     elif ((args.critical > 0) and (mail_count >= args.critical)):
         status_code = "CRITICAL"
-    elif ((args.critical > 0) and (mail_count >= args.warning)):
+    elif ((args.warning > 0) and (mail_count >= args.warning)):
         status_code = "WARNING"
     else:
         status_code = "OK"
