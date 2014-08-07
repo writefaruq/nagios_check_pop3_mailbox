@@ -96,6 +96,7 @@
 
 import argparse
 import poplib
+import sys
 
 PROTOCOL_POP3 = 'pop3'
 PROTOCOL_POP3S = 'pop3s'
@@ -151,4 +152,4 @@ if __name__ == '__main__':
         status_code = "OK"
 
     print "POP3_ACCOUNT %s - %s |messages=%s;%s;%s" %(status_code, status_info, mail_count, args.warning, args.critical)
-    return RET_CODES[status_code]
+    sys.exit(RET_CODES[status_code])
