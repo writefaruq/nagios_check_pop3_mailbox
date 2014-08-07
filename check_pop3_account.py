@@ -99,6 +99,12 @@ import poplib
 
 PROTOCOL_POP3 = 'pop3'
 PROTOCOL_POP3S = 'pop3s'
+RET_CODES = {'OK': 0,
+             'WARNING': 1,
+             'CRITICAL': 2,
+             'UNKNOWN': 3,
+             'DEPENDENT': 4,
+             }
 
 def get_args():
     parser = argparse.ArgumentParser("Another Nagios plugin to check POP3 mailbox")
@@ -144,4 +150,5 @@ if __name__ == '__main__':
     else:
         status_code = "OK"
 
-    print "POP3_ACCOUNT %s - %s | messages=%s;%s;%s" %(status_code, status_info, mail_count, args.warning, args.critical)
+    print "POP3_ACCOUNT %s - %s |messages=%s;%s;%s" %(status_code, status_info, mail_count, args.warning, args.critical)
+    return RET_CODES[status_code]
