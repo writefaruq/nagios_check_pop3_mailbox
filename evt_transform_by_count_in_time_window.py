@@ -1,6 +1,10 @@
 # This transform converts POP3Check warning to critical
 
 import re
+import time
+import datetime
+ts = time.time()
+NOW = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
 TIME_WINDOW = 540
 
@@ -10,7 +14,8 @@ if device:
 match = re.search("POP3", evt.summary)
 
 if match:
-    evt.Remediation = '''Follow the OTRS wiki page to clear the mailbox jam'''
+    soln = NOW + " Follow the OTRS wiki page to clear the mailbox jam"
+    evt.Remediation =  soln
     #import pdb; pdb.set_trace()
     zep = getFacade('zep')      
     event_class_filter = ['/Cmd/POP3Check']
@@ -26,12 +31,7 @@ if match:
      
             # We close based on what amounts to the auto-clear fingerprint so that
             # the escalated and non-escalated events all get cleared.
-            zep.closeEventSummaries(
-                eventFilter=zep.createEventFilter(
-                    element_identifier=evt.device,
-                    element_sub_identifier=evt.component,
-                    event_class=evt.eventClass,
-                    event_key=evt.eventKey))
+            zep.closeEventSummaries(eventFilter= evt_filter)
 
 
         if existing_count >= 3:
