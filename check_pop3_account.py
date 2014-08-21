@@ -132,24 +132,27 @@ def check_mailbox(host, user, pswd, protocol):
             mailbox.pass_(pswd)
             mail_count = len(mailbox.list()[1])
     except Exception, e:
-        print "Error occured: %s" %str(e)
-        return
+        pass
+        #print "POP3_ACCOUNT Error occured: %s\n" %str(e) # causing event transform to fail
+
     return mail_count
 
 
 if __name__ == '__main__':
     args = get_args()
     mail_count = check_mailbox(args.host, args.user, args.pswd, args.protocol)
-    status_info = "%d emails for %s" %(mail_count, args.user)
     if mail_count is None:
         status_code = "CRITICAL"
         status_info = "Failed to login to server: %s with user: %s over: %s" %(args.host, args.user, args.protocol)
     elif ((args.critical > 0) and (mail_count >= args.critical)):
         status_code = "CRITICAL"
+        status_info = "%s emails for %s" %(mail_count, args.user)
     elif ((args.warning > 0) and (mail_count >= args.warning)):
         status_code = "WARNING"
+        status_info = "%s emails for %s" %(mail_count, args.user)
     else:
         status_code = "OK"
-
-    print "POP3_ACCOUNT %s - %s |messages=%s;%s;%s" %(status_code, status_info, mail_count, args.warning, args.critical)
+        status_info = "%s emails for %s" %(mail_count, args.user)
+    print "\nPOP3_ACCOUNT %s - %s |messages=%s;%s;%s" %(status_code, status_info, mail_count, args.warning, args.critical)
     sys.exit(RET_CODES[status_code])
+

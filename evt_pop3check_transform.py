@@ -36,4 +36,4 @@ if match:
 
         if existing_count >= 3:
             evt.severity = 5
-            evt.message = 'POP3_ACCOUNT CRITICAL : OTRS mailbox jammed --URGENT ATTN Needed'
+
